@@ -231,8 +231,6 @@ section{
 /***about***/
 
 #dis {
-    position: relative;
-    overflow: hidden;
     width: 100%;
     display: flex;
     align-items: center;
@@ -273,60 +271,6 @@ section{
     background-color:darkmagenta;
 }
 
-/* Brush-stroke underline beneath the heading — draws itself in when the
-   heading (already tracked by AOS) scrolls into view. */
-.dis-heading-wrap{
-    display: inline-block;
-    position: relative;
-}
-.dis-heading-wrap .brush-underline{
-    display: block;
-    width: 200px;
-    max-width: 60vw;
-    height: 16px;
-    margin: -4px auto 0;
-}
-.dis-heading-wrap .brush-underline path{
-    stroke-dasharray: 260;
-    stroke-dashoffset: 260;
-    transition: stroke-dashoffset 1s ease .6s;
-    filter: drop-shadow(0 2px 1px rgba(0,0,0,.35));
-}
-#dis .container.aos-animate .dis-heading-wrap .brush-underline path{
-    stroke-dashoffset: 0;
-}
-
-/* A drippy paint edge across the full top of the banner — looks like
-   the light section above is dripping down onto the wall, and settles
-   in when the banner scrolls into view. */
-.paint-edge{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    pointer-events: none;
-}
-.paint-edge-band{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: #fdf6fb;
-}
-.paint-drip{
-    position: absolute;
-    top: 0;
-    width: 16px;
-    fill: #fdf6fb;
-    transform: scaleY(0);
-    transform-origin: top center;
-    transition: transform .9s cubic-bezier(.34,1.2,.4,1);
-}
-#dis.aos-animate .paint-drip{
-    transform: scaleY(1);
-}
 #feature{
     display: flex;
     align-items: center;
