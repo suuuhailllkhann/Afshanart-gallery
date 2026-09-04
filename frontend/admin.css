@@ -1,0 +1,324 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #f7f3fa;
+  color: #333;
+}
+h1, h2 {
+  font-family: "Raleway", sans-serif;
+}
+
+/* Header */
+.admin-header {
+  background-color: darkmagenta;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.admin-brand {
+  color: #fff;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.admin-brand em {
+  font-style: normal;
+  color: #D2B4DE;
+}
+.admin-header .btn-ghost {
+  color: #fff;
+  border-color: #fff;
+}
+.admin-header .btn-ghost:hover {
+  background-color: #fff;
+  color: darkmagenta;
+}
+
+/* Buttons */
+.btn-primary, .btn-ghost, .btn-danger {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 0.6rem 1.6rem;
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s all;
+}
+.btn-primary {
+  background-color: darkmagenta;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #6e0070;
+}
+.btn-ghost {
+  background: transparent;
+  border-color: darkmagenta;
+  color: darkmagenta;
+}
+.btn-ghost:hover {
+  background-color: #D2B4DE;
+  border-color: #D2B4DE;
+  color: #fff;
+}
+/* Confirm dialog */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 25, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+.confirm-card {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+.confirm-card p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 1.25rem;
+}
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.btn-danger {
+  background-color: transparent;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+.btn-danger:hover {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+/* Login */
+.login-wrap {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.login-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(139, 0, 139, 0.15);
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.login-card h1 {
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+/* Forms */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  flex: 1;
+}
+input, select, textarea {
+  font-family: "Open Sans", sans-serif;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 0.4rem;
+  font-size: 14px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: darkmagenta;
+}
+.checkbox-label {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.checkbox-label input {
+  width: auto;
+}
+
+/* Dashboard */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  padding: 16px 30px;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 2rem;
+  border: none;
+  background: #f0e6f5;
+  color: darkmagenta;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+.tab-btn.active, .tab-btn:hover {
+  background: darkmagenta;
+  color: #fff;
+}
+.admin-panel {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px 60px;
+}
+.admin-panel h2 {
+  margin-bottom: 20px;
+  color: darkmagenta;
+}
+.hint-text {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.admin-form {
+  background: #fff;
+  padding: 24px;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.form-row label {
+  min-width: 150px;
+}
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+.image-preview {
+  max-width: 160px;
+  border-radius: 0.4rem;
+}
+.status-text {
+  font-size: 13px;
+  min-height: 16px;
+}
+.error-text {
+  color: #c0392b;
+}
+.success-text {
+  color: #1e8449;
+}
+
+/* Lists */
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.admin-row {
+  background: #fff;
+  border-radius: 0.6rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.admin-row img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  flex-shrink: 0;
+}
+.admin-row-noimg {
+  width: 60px;
+  height: 60px;
+  border-radius: 0.4rem;
+  flex-shrink: 0;
+  background: #f0e6f4;
+  color: #b899c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+.admin-row-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+.admin-row-info span {
+  color: #777;
+  font-size: 13px;
+}
+.admin-row-info span a {
+  color: darkmagenta;
+  text-decoration: none;
+}
+.admin-row-info span a:hover {
+  text-decoration: underline;
+}
+.admin-row-inquiry {
+  align-items: flex-start;
+}
+.admin-row-inquiry p {
+  font-size: 13px;
+  color: #555;
+  margin-top: 4px;
+}
+.admin-row-inquiry small {
+  color: #999;
+}
+.admin-row-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}

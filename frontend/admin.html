@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="admin.css?v=5">
+    <title>Admin — Afshan Art Gallery</title>
+  </head>
+  <body>
+    <header class="admin-header">
+      <span class="admin-brand">Afshan Art Gallery <em>Admin</em></span>
+      <button id="logout-btn" class="btn-ghost" hidden>Log out</button>
+    </header>
+
+    <!-- LOGIN -->
+    <section id="login-view" class="login-wrap">
+      <form id="login-form" class="login-card">
+        <h1>Admin Login</h1>
+        <label>Email
+          <input type="email" id="login-email" required autocomplete="username">
+        </label>
+        <label>Password
+          <input type="password" id="login-password" required autocomplete="current-password">
+        </label>
+        <button type="submit" class="btn-primary">Log in</button>
+        <p id="login-error" class="error-text" hidden></p>
+      </form>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard-view" hidden>
+      <nav class="admin-tabs">
+        <button class="tab-btn active" data-panel="shop">Shop</button>
+        <button class="tab-btn" data-panel="blog">Blog</button>
+        <button class="tab-btn" data-panel="story">My Story</button>
+        <button class="tab-btn" data-panel="inquiries">Inquiries</button>
+      </nav>
+
+      <!-- SHOP PANEL -->
+      <div id="panel-shop" class="admin-panel">
+        <h2>Shop items</h2>
+        <form id="product-form" class="admin-form">
+          <input type="hidden" id="product-id">
+          <input type="hidden" id="product-existing-image">
+          <div class="form-row">
+            <label>Category
+              <select id="product-category">
+                <option>Painting</option>
+                <option>Cup Painting</option>
+                <option>Model</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>Title
+              <input type="text" id="product-title" required>
+            </label>
+            <label>Price (AED)
+              <input type="number" id="product-price" min="0" step="1" required>
+            </label>
+          </div>
+          <label>Description
+            <textarea id="product-description" rows="3" placeholder="Tell buyers about this piece — inspiration, medium, size, etc."></textarea>
+          </label>
+          <div class="form-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="product-sold-out"> Sold out
+            </label>
+            <label>Image
+              <input type="file" id="product-image" accept="image/*">
+            </label>
+          </div>
+          <img id="product-image-preview" class="image-preview" hidden>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Save item</button>
+            <button type="button" id="product-cancel" class="btn-ghost" hidden>Cancel edit</button>
+          </div>
+          <p id="product-status" class="status-text"></p>
+        </form>
+        <div id="product-list" class="admin-list"></div>
+      </div>
+
+      <!-- BLOG PANEL -->
+      <div id="panel-blog" class="admin-panel" hidden>
+        <h2>Blog / press entries</h2>
+        <form id="blog-form" class="admin-form">
+          <input type="hidden" id="blog-id">
+          <input type="hidden" id="blog-existing-image">
+          <input type="hidden" id="blog-existing-image-2">
+          <div class="form-row">
+            <label>Title
+              <input type="text" id="blog-title" required>
+            </label>
+            <label>Subtitle / date
+              <input type="text" id="blog-subtitle" placeholder="e.g. featured in Gulf Today - Aug 31, 2023">
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Post date
+              <input type="date" id="blog-post-date">
+            </label>
+          </div>
+          <label>Description
+            <textarea id="blog-description" rows="3"></textarea>
+          </label>
+          <div class="form-row">
+            <label>Image 1
+              <input type="file" id="blog-image" accept="image/*">
+            </label>
+            <label>Image 2 (optional)
+              <input type="file" id="blog-image-2" accept="image/*">
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Link URL (optional)
+              <input type="url" id="blog-link-url" placeholder="https://...">
+            </label>
+            <label>Link label
+              <input type="text" id="blog-link-label" placeholder="e.g. READ THE ARTICLE">
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Link 2 URL (optional)
+              <input type="url" id="blog-link2-url" placeholder="https://...">
+            </label>
+            <label>Link 2 label
+              <input type="text" id="blog-link2-label" placeholder="e.g. WATCH THE VIDEO">
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Save entry</button>
+            <button type="button" id="blog-cancel" class="btn-ghost" hidden>Cancel edit</button>
+          </div>
+          <p id="blog-status" class="status-text"></p>
+        </form>
+        <div id="blog-list" class="admin-list"></div>
+      </div>
+
+      <!-- STORY PANEL -->
+      <div id="panel-story" class="admin-panel" hidden>
+        <h2>My Story page</h2>
+        <form id="story-form" class="admin-form">
+          <input type="hidden" id="story-existing-photo">
+          <label>Photo (shown in the hero and artist section on the Home page)
+            <input type="file" id="story-photo" accept="image/*">
+          </label>
+          <img id="story-photo-preview" class="image-preview" hidden>
+          <label>Pull-quote
+            <input type="text" id="story-quote">
+          </label>
+          <label>Bio (leave a blank line between paragraphs)
+            <textarea id="story-body" rows="16"></textarea>
+          </label>
+          <label>Site theme (font + color, applied to Blog and My Story only)
+            <select id="story-theme">
+              <option value="classic">Classic Magenta (default)</option>
+              <option value="elegant-script">Elegant Script</option>
+              <option value="terracotta">Warm Terracotta</option>
+              <option value="teal">Soft Teal</option>
+            </select>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Save story</button>
+          </div>
+          <p id="story-status" class="status-text"></p>
+        </form>
+      </div>
+
+      <!-- INQUIRIES PANEL -->
+      <div id="panel-inquiries" class="admin-panel" hidden>
+        <h2>Painting inquiries</h2>
+        <p class="hint-text">Leads submitted through the "Inquire" form on the Shop page.</p>
+        <div id="inquiries-list" class="admin-list"></div>
+      </div>
+    </section>
+
+    <!-- CONFIRM DIALOG -->
+    <div id="confirm-overlay" class="confirm-overlay" hidden>
+      <div class="confirm-card">
+        <p id="confirm-message"></p>
+        <div class="confirm-actions">
+          <button type="button" id="confirm-cancel" class="btn-ghost">Cancel</button>
+          <button type="button" id="confirm-ok" class="btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="admin.js?v=10"></script>
+  </body>
+</html>
