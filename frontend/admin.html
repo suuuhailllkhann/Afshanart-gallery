@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="admin.css?v=6">
+    <link rel="stylesheet" type="text/css" href="admin.css?v=7">
     <title>Admin — Afshan Art Gallery</title>
   </head>
   <body>
@@ -67,12 +67,17 @@
             <label class="checkbox-label">
               <input type="checkbox" id="product-sold-out"> Sold out
             </label>
-            <label>Image
+            <label>Cover Photo
               <input type="file" id="product-image" accept="image/*">
               <small class="hint-text">Best size: around 1000×1000px, square-ish. Larger photos still work but make the site slower to load.</small>
             </label>
           </div>
           <img id="product-image-preview" class="image-preview" hidden>
+          <label>Additional Photos (optional)
+            <input type="file" id="product-extra-images" accept="image/*" multiple>
+            <small class="hint-text">Select several photos at once — they'll slide automatically on the painting's card. Same size guide as the cover photo.</small>
+          </label>
+          <div id="product-extra-preview" class="extra-images-preview"></div>
           <div class="form-actions">
             <button type="submit" class="btn-primary">Save item</button>
             <button type="button" id="product-cancel" class="btn-ghost" hidden>Cancel edit</button>
@@ -192,6 +197,6 @@
 
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script defer src="supabase-client.js"></script>
-    <script defer src="admin.js?v=10"></script>
+    <script defer src="admin.js?v=11"></script>
   </body>
 </html>

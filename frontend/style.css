@@ -398,6 +398,29 @@ section{
 #product1 .pro:hover .pro-imgbox img{
     transform: scale(1.05);
 }
+.carousel-dots{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    z-index: 2;
+}
+.carousel-dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.55);
+    border: 1px solid rgba(0,0,0,.15);
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+.carousel-dot.active{
+    background: #fff;
+    transform: scale(1.2);
+}
 #product1 .pro-sold{
     position: absolute;
     top: 10px;
@@ -1104,9 +1127,17 @@ section{
     gap: 20px;
     flex: 1 1 320px;
 }
-.inquire-product img{
+.inquire-imgbox{
+    position: relative;
     width: 200px;
     height: 250px;
+    flex-shrink: 0;
+    border-radius: .75rem;
+    overflow: hidden;
+}
+.inquire-product img{
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: .75rem;
 }

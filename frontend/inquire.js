@@ -18,7 +18,19 @@ async function loadProduct() {
     return;
   }
 
-  const { data, error } = await supabaseClient.from("products").select("*").eq("id", productId).maybeSingle();
+  let { data, error } = await supabaseClient
+    .from("products")
+    .select("*, product_images(image_url, sort_order)")
+    .eq("id", productId)
+    .maybeSingle();
+
+  if (error) {
+    // product_images may not exist yet if the migration hasn't been run —
+    // fall back to a plain query so the page still works either way.
+    console.error("product_images join failed, falling back:", error);
+    ({ data, error } = await supabaseClient.from("products").select("*").eq("id", productId).maybeSingle());
+  }
+
   loadingEl.hidden = true;
 
   if (error || !data) {
@@ -27,7 +39,14 @@ async function loadProduct() {
   }
 
   currentProduct = data;
-  document.getElementById("inquire-image").src = data.image_url;
+  const extra = (data.product_images || [])
+    .slice()
+    .sort((a, b) => a.sort_order - b.sort_order)
+    .map((pi) => pi.image_url);
+  const slides = [data.image_url, ...extra];
+  const imgEl = document.getElementById("inquire-image");
+  imgEl.src = slides[0];
+  attachCarousel(imgEl, document.getElementById("inquire-dots"), slides);
   document.getElementById("inquire-category").textContent = data.category;
   document.getElementById("inquire-title").textContent = data.title;
   document.getElementById("inquire-price").textContent = "AED " + data.price;

@@ -16,6 +16,16 @@ create table if not exists products (
   created_at timestamptz not null default now()
 );
 
+-- Extra photos for a painting, beyond the primary products.image_url.
+-- Shown as a slideshow on the Shop card and the Inquire page.
+create table if not exists product_images (
+  id uuid primary key default gen_random_uuid(),
+  product_id uuid not null references products(id) on delete cascade,
+  image_url text not null,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists blog_posts (
   id uuid primary key default gen_random_uuid(),
   title text not null,
@@ -57,12 +67,15 @@ create table if not exists inquiries (
 -- ============================================================
 
 alter table products enable row level security;
+alter table product_images enable row level security;
 alter table blog_posts enable row level security;
 alter table story_content enable row level security;
 alter table inquiries enable row level security;
 
 -- Public (anon + authenticated) can read products, blog posts, story content.
 create policy "public read products" on products
+  for select using (true);
+create policy "public read product_images" on product_images
   for select using (true);
 create policy "public read blog_posts" on blog_posts
   for select using (true);
@@ -75,6 +88,13 @@ create policy "admin write products" on products
 create policy "admin update products" on products
   for update to authenticated using (true) with check (true);
 create policy "admin delete products" on products
+  for delete to authenticated using (true);
+
+create policy "admin write product_images" on product_images
+  for insert to authenticated with check (true);
+create policy "admin update product_images" on product_images
+  for update to authenticated using (true) with check (true);
+create policy "admin delete product_images" on product_images
   for delete to authenticated using (true);
 
 create policy "admin write blog_posts" on blog_posts

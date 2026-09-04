@@ -117,24 +117,58 @@ const productIdField = document.getElementById("product-id");
 const productExistingImage = document.getElementById("product-existing-image");
 const productImagePreview = document.getElementById("product-image-preview");
 const productCancelBtn = document.getElementById("product-cancel");
+const productExtraInput = document.getElementById("product-extra-images");
+const productExtraPreview = document.getElementById("product-extra-preview");
+
+// Existing additional photos for the product currently being edited, and
+// the ids of any the user has removed (deleted for real on Save).
+let productExtraImages = [];
+let productImagesToDelete = [];
+
+function renderExtraImagePreview() {
+  productExtraPreview.innerHTML = productExtraImages
+    .map(
+      (pi) => `<div class="extra-image-thumb" data-id="${pi.id}">
+        <img src="${pi.image_url}" alt="">
+        <button type="button" class="remove-btn" title="Remove">&times;</button>
+      </div>`
+    )
+    .join("");
+  productExtraPreview.querySelectorAll(".extra-image-thumb").forEach((thumb) => {
+    thumb.querySelector(".remove-btn").addEventListener("click", () => {
+      const id = thumb.dataset.id;
+      productImagesToDelete.push(id);
+      productExtraImages = productExtraImages.filter((pi) => String(pi.id) !== id);
+      thumb.remove();
+    });
+  });
+}
 
 async function loadProducts() {
   const list = document.getElementById("product-list");
   list.textContent = "Loading...";
-  const { data, error } = await supabaseClient.from("products").select("*").order("created_at", { ascending: false });
+  let { data, error } = await supabaseClient
+    .from("products")
+    .select("*, product_images(id)")
+    .order("created_at", { ascending: false });
+  if (error) {
+    // product_images may not exist yet if the migration hasn't been run.
+    ({ data, error } = await supabaseClient.from("products").select("*").order("created_at", { ascending: false }));
+  }
   if (error) {
     list.textContent = "Error loading products: " + error.message;
     return;
   }
   list.innerHTML = "";
   data.forEach((p) => {
+    const extraCount = (p.product_images || []).length;
     const row = document.createElement("div");
     row.className = "admin-row";
     row.innerHTML = `
       <img src="${p.image_url}" alt="">
       <div class="admin-row-info">
         <strong>${p.title}</strong>
-        <span>${p.category} — AED ${p.price}${p.sold_out ? " — SOLD OUT" : ""}</span>
+        <span>${p.category} — AED ${p.price}${p.sold_out ? " — SOLD OUT" : ""}${extraCount ? ` — +${extraCount} more photo${extraCount > 1 ? "s" : ""}` : ""}</span>
       </div>
       <div class="admin-row-actions">
         <button class="btn-ghost edit-btn">Edit</button>
@@ -146,7 +180,7 @@ async function loadProducts() {
   });
 }
 
-function editProduct(p) {
+async function editProduct(p) {
   productIdField.value = p.id;
   productExistingImage.value = p.image_url;
   document.getElementById("product-category").value = p.category;
@@ -157,6 +191,17 @@ function editProduct(p) {
   productImagePreview.src = p.image_url;
   productImagePreview.hidden = false;
   productCancelBtn.hidden = false;
+
+  productImagesToDelete = [];
+  productExtraInput.value = "";
+  const { data, error } = await supabaseClient
+    .from("product_images")
+    .select("id, image_url, sort_order")
+    .eq("product_id", p.id)
+    .order("sort_order", { ascending: true });
+  productExtraImages = error ? [] : data;
+  renderExtraImagePreview();
+
   window.scrollTo({ top: productForm.offsetTop - 20, behavior: "smooth" });
 }
 
@@ -166,6 +211,9 @@ function resetProductForm() {
   productExistingImage.value = "";
   productImagePreview.hidden = true;
   productCancelBtn.hidden = true;
+  productExtraImages = [];
+  productImagesToDelete = [];
+  productExtraPreview.innerHTML = "";
 }
 
 productCancelBtn.addEventListener("click", resetProductForm);
@@ -192,12 +240,39 @@ productForm.addEventListener("submit", async (e) => {
       image_url: imageUrl,
     };
 
-    const { error } = id
-      ? await supabaseClient.from("products").update(record).eq("id", id)
-      : await supabaseClient.from("products").insert(record);
-    if (error) throw error;
+    let productId = id;
+    if (id) {
+      const { error } = await supabaseClient.from("products").update(record).eq("id", id);
+      if (error) throw error;
+    } else {
+      const { data: inserted, error } = await supabaseClient.from("products").insert(record).select().single();
+      if (error) throw error;
+      productId = inserted.id;
+    }
 
-    setStatus(statusEl, "Saved.", false);
+    let extraPhotosWarning = "";
+    try {
+      if (productImagesToDelete.length) {
+        const { error: delErr } = await supabaseClient.from("product_images").delete().in("id", productImagesToDelete);
+        if (delErr) throw delErr;
+      }
+      if (productExtraInput.files.length) {
+        let nextOrder = productExtraImages.reduce((max, pi) => Math.max(max, pi.sort_order), -1) + 1;
+        const newRows = [];
+        for (const file of productExtraInput.files) {
+          const url = await uploadImage(file, "products");
+          newRows.push({ product_id: productId, image_url: url, sort_order: nextOrder++ });
+        }
+        const { error: insErr } = await supabaseClient.from("product_images").insert(newRows);
+        if (insErr) throw insErr;
+      }
+    } catch (extraErr) {
+      // Don't lose the already-saved product over an extra-photos hiccup —
+      // most likely the product_images migration hasn't been run yet.
+      extraPhotosWarning = " (Extra photos couldn't be saved: " + extraErr.message + ")";
+    }
+
+    setStatus(statusEl, "Saved." + extraPhotosWarning, !!extraPhotosWarning);
     resetProductForm();
     loadProducts();
   } catch (err) {
