@@ -15,10 +15,10 @@ async function renderProducts(containerId) {
 
   container.innerHTML = data
     .map(
-      (p) => `
+      (p, i) => `
     <a href="inquire.html?id=${p.id}" class="pro" data-aos="zoom-out" data-aos-delay="200" data-product-id="${p.id}">
         <div class="pro-imgbox">
-            <img src="${p.image_url}" alt="${p.title}">
+            <img src="${p.image_url}" alt="${p.title}" loading="${i < 3 ? "eager" : "lazy"}" decoding="async">
             ${p.sold_out ? `<span class="pro-sold">Sold out</span>` : ""}
         </div>
         <div class="pro-body">

@@ -15,11 +15,12 @@ async function renderBlogPosts(containerId) {
   }
 
   container.innerHTML = data
-    .map((b) => {
+    .map((b, i) => {
       const images = [b.image_url, b.image_url_2].filter(Boolean);
+      const loadAttr = i < 2 ? "eager" : "lazy";
       const imgHtml = images.length
         ? `<div class="press-imgbox${images.length > 1 ? " has-two" : ""}">
-            ${images.map((src) => `<img src="${src}" alt="${b.title}">`).join("")}
+            ${images.map((src) => `<img src="${src}" alt="${b.title}" loading="${loadAttr}" decoding="async">`).join("")}
           </div>`
         : "";
 

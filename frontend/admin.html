@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="admin.css?v=5">
+    <link rel="stylesheet" type="text/css" href="admin.css?v=6">
     <title>Admin — Afshan Art Gallery</title>
   </head>
   <body>
@@ -69,6 +69,7 @@
             </label>
             <label>Image
               <input type="file" id="product-image" accept="image/*">
+              <small class="hint-text">Best size: around 1000×1000px, square-ish. Larger photos still work but make the site slower to load.</small>
             </label>
           </div>
           <img id="product-image-preview" class="image-preview" hidden>
@@ -107,9 +108,11 @@
           <div class="form-row">
             <label>Image 1
               <input type="file" id="blog-image" accept="image/*">
+              <small class="hint-text">Best size: around 1000×1000px. Larger photos still work but make the site slower to load.</small>
             </label>
             <label>Image 2 (optional)
               <input type="file" id="blog-image-2" accept="image/*">
+              <small class="hint-text">Same as above — around 1000×1000px works best.</small>
             </label>
           </div>
           <div class="form-row">
@@ -144,6 +147,7 @@
           <input type="hidden" id="story-existing-photo">
           <label>Photo (shown in the hero and artist section on the Home page)
             <input type="file" id="story-photo" accept="image/*">
+            <small class="hint-text">Best size: around 500×500px, square. It's shown small and round, so a bigger file just slows down the page.</small>
           </label>
           <img id="story-photo-preview" class="image-preview" hidden>
           <label>Pull-quote
@@ -186,8 +190,8 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-client.js"></script>
-    <script src="admin.js?v=10"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="supabase-client.js"></script>
+    <script defer src="admin.js?v=10"></script>
   </body>
 </html>
