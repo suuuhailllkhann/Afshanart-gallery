@@ -94,7 +94,7 @@ section{
     font-weight: 700;
     border-radius: 20px;
 }
-#navigation #navbarNav .nav-item:not(:last-child) a:hover{
+#navigation #navbarNav .nav-item a:hover{
     color:#fff;
     background: rgba(255,255,255,0.15);
     text-decoration: none;
@@ -103,13 +103,9 @@ section{
     background:#fff;
     color:darkmagenta;
 }
-#navigation #navbarNav .nav-item:last-child a{
-    padding: 10px 16px;
-    color:#fff;
-}
-#navigation #navbarNav .nav-item:last-child a:hover{
-    color:#D2B4DE;
-    background: transparent;
+#navigation #navbarNav .nav-item.active a:hover{
+    background:#fff;
+    color:darkmagenta;
 }
 
 #s1{
@@ -1039,7 +1035,7 @@ section{
         text-align: center;
         margin: 4px 0;
     }
-    #navigation #navbarNav .nav-item:not(:last-child) a:hover{
+    #navigation #navbarNav .nav-item a:hover{
         color: #fff;
         background: rgba(255,255,255,0.15);
     }
@@ -1047,8 +1043,9 @@ section{
         background:#fff;
         color:darkmagenta;
     }
-    #navigation #navbarNav .nav-item:last-child a{
-        color: #fff;
+    #navigation #navbarNav .nav-item.active a:hover{
+        background:#fff;
+        color:darkmagenta;
     }
     #navigation.nav-scroll{
         background-color: darkmagenta;
