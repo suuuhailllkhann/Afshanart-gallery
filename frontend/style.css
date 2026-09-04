@@ -301,24 +301,37 @@ section{
 .paint-drip{
     position: absolute;
     top: 0;
-    width: 18px;
-    border-radius: 0 0 50% 50% / 0 0 68% 68%;
+    width: 7px;
+    border-radius: 0 0 3px 3px;
     transform: scaleY(0);
     transform-origin: top center;
     transition: transform 1.1s cubic-bezier(.34,1.2,.4,1);
     pointer-events: none;
-    box-shadow: 0 3px 6px rgba(0,0,0,.3);
 }
 .paint-drip::before{
+    /* the pool of paint this drip is falling from */
     content: "";
     position: absolute;
     top: -5px;
     left: 50%;
     transform: translateX(-50%);
-    width: 28px;
-    height: 16px;
+    width: 26px;
+    height: 15px;
     border-radius: 50%;
     background: inherit;
+}
+.paint-drip::after{
+    /* the rounded bead of paint at the falling end */
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 45% 45% 50% 50% / 40% 40% 60% 60%;
+    background: inherit;
+    box-shadow: 0 3px 5px rgba(0,0,0,.3);
 }
 #dis.aos-animate .paint-drip{
     transform: scaleY(1);
