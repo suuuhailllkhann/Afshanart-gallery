@@ -1,0 +1,23 @@
+name: Keep Supabase project alive
+
+on:
+  schedule:
+    # Every 3 days at 04:00 UTC — well under Supabase's free-tier
+    # inactivity-pause window, so the project never goes to sleep.
+    - cron: "0 4 */3 * *"
+  workflow_dispatch: {} # lets you trigger it manually from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://rwvvedejzmjyttrdnkox.supabase.co/rest/v1/products?select=id&limit=1" \
+            -H "apikey: sb_publishable_zcwDaDDG8V8ZnDHJkLz72g_41bhKdb0")
+          echo "Supabase responded with HTTP $status"
+          if [ "$status" -ge 400 ]; then
+            echo "::error::Supabase ping failed with status $status"
+            exit 1
+          fi
